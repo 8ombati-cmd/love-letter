@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💌 Lovely Letter To You Babe</title>
+<style>
+html, body {
+  margin:0; padding:0;
+  width:100%; height:100%;
+  overflow:hidden;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Background */
+#background {
+  position:fixed;
+  top:0; left:0;
+  width:100vw; height:100vh;
+  background: url('Susan.jpeg') no-repeat center center/cover;
+  opacity: 0;
+  transition: opacity 2s ease-in-out;
+  z-index: -1;
+}
+
+/* Sparkles */
+.sparkle {
+  position:absolute;
+  width:3px; height:3px;
+  background:white;
+  border-radius:50%;
+  opacity:0;
+  animation: sparkleAnim 2s infinite alternate;
+}
+@keyframes sparkleAnim {
+  0% {opacity:0; transform: scale(0.3);}
+  50% {opacity:1; transform: scale(1.2);}
+  100% {opacity:0; transform: scale(0.3);}
+}
+
+/* Envelope */
+#envelope {
+  position:fixed;
+  top:0; left:0;
+  width:100vw; height:100vh;
+  background: rgba(253,246,240,0.95);
+  cursor:pointer;
+  display:flex; justify-content:center; align-items:center;
+  perspective: 1000px;
+  z-index: 2;
+}
+
+#envelope-inner {
+  width:80%; height:60%;
+  background:#fdf6f0;
+  border:3px solid #fff;
+  border-radius:10px;
+  display:flex; justify-content:center; align-items:center;
+  position:relative;
+  transform-style: preserve-3d;
+  transition: transform 1s ease-in-out;
+}
+
+#envelope.open #envelope-inner {
+  transform: rotateX(-180deg) rotateY(10deg);
+}
+
+#envelope span {
+  position:absolute;
+  z-index:2;
+  font-size:3rem;
+  font-weight:bold;
+  color:#000;
+}
+
+/* Poem container */
+#poem-container {
+  position:absolute;
+  top:0; left:0;
+  width:100%; height:100%;
+  display:flex; justify-content:center; align-items:center;
+  text-align:center;
+  padding:2rem;
+  color:lab(97.56% 1.15 3.1);
+  opacity:0;
+  pointer-events:none;
+}
+
+#poem {
+  max-width:600px;
+  font-size:3.1rem;
+  line-height:1.8;
+  text-shadow: 0 0 10px rgba(255,255,255,0.5);
+  opacity:1;
+  transition: opacity 0.6s ease;
+}
+
+.star, .shooting-star, .star-photo {
+  position:absolute; border-radius:50%;
+}
+
+.star { width:3px; height:3px; background:white; opacity:0.8; animation: twinkle 3s infinite alternate; }
+@keyframes twinkle { from { opacity:0.2; transform: scale(0.5);} to { opacity:1; transform: scale(1.2);} }
+
+.shooting-star { width:2px; height:100px; background: linear-gradient(white, transparent); transform: rotate(-45deg); opacity:0; animation: shoot 2s forwards; }
+@keyframes shoot { 0% {opacity:1; transform: translate(0,0) rotate(-45deg);} 100% {opacity:0; transform: translate(800px,600px) rotate(-45deg);} }
+
+.star-photo { width:40px; height:40px; overflow:hidden; border:2px solid rgba(255,255,255,0.5); animation: twinkle 4s infinite alternate; }
+.star-photo img { width:100%; height:100%; object-fit:cover; }
+
+/* Floating animation */
+@keyframes floatX {
+  0% { transform: translateY(0px) translateX(0px); }
+  50% { transform: translateY(-15px) translateX(15px); }
+  100% { transform: translateY(0px) translateX(0px); }
+}
+
+@keyframes floatY {
+  0% { transform: translateY(0px) translateX(0px); }
+  50% { transform: translateY(15px) translateX(-15px); }
+  100% { transform: translateY(0px) translateX(0px); }
+}
+
+/* Recipient name outside */
+#recipient-name-outside {
+  position: absolute;
+  top: 50px;
+  width: 100%;
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #6200ff;
+  z-index: 5; /* important so it stays above envelope */
+  text-shadow: 0 0 5px rgba(255,0,0,0.7),
+               0 0 15px rgba(255,0,0,0.5),
+               0 0 30px rgba(255,0,0,0.3);
+  animation: glow 2s infinite alternate;
+}
+
+/* Glow animation */
+@keyframes glow {
+  0% { text-shadow: 0 0 5px rgba(255,0,0,0.7),
+                     0 0 15px rgba(255,0,0,0.5),
+                     0 0 30px rgba(255,0,0,0.3);}
+  50% { text-shadow: 0 0 10px rgba(255,0,0,1),
+                      0 0 20px rgba(255,0,0,0.8),
+                      0 0 40px rgba(255,0,0,0.5);}
+  100% { text-shadow: 0 0 5px rgba(255,0,0,0.7),
+                      0 0 15px rgba(255,0,0,0.5),
+                      0 0 30px rgba(255,0,0,0.3);}
+}
+
+audio { display:none; }
+
+/* PASSWORD SCREEN (ADDED) */
+#lockScreen {
+  position:fixed;
+  width:100%;
+  height:100%;
+  background: radial-gradient(circle, #000000, #1a001a);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  z-index:9999;
+  color:white;
+  text-align:center;
+}
+#lockScreen input {
+  padding:12px; border-radius:25px; border:none; margin-top:15px; text-align:center; width:220px;
+}
+#lockScreen button {
+  margin-top:15px; padding:10px 25px; border:none; border-radius:25px; background:#ff4b6e; color:white;
+}
+#lockScreen #error { color:#ff6b6b; margin-top:10px;}
+#lockScreen #hint { margin-top:10px; font-size:0.9rem; opacity:0.6;}
+</style>
+</head>
+<body>
+
+<!-- PASSWORD SCREEN -->
+<div id="lockScreen">
+  <h2>🔒 A Secret Awaits...</h2>
+  <p>Only you know the key 💭</p>
+  <input id="passwordInput" type="password" placeholder="Enter secret...">
+  <button onclick="checkPassword()">Unlock 💝</button>
+  <p id="error"></p>
+  <p id="hint"></p>
+</div>
+
+<div id="background"></div>
+
+<div id="recipient-name-outside">Susan</div>
+
+<div id="envelope">
+  <div id="envelope-inner"><span>💌 Tap Me Babe </span></div>
+</div>
+
+<div id="poem-container">
+  <div id="poem"></div>
+  <audio id="bg-music" loop>
+    <source src="Love.mp3" type="audio/mpeg">
+  </audio>
+</div>
+
+<script>
+// 🔐 PASSWORD SYSTEM (ADDED)
+const correctPassword = "14th August";
+let attempts = 0;
+
+function checkPassword() {
+  const input = document.getElementById("passwordInput").value;
+  const error = document.getElementById("error");
+  const hint = document.getElementById("hint");
+
+  if(input === correctPassword){
+    const lock = document.getElementById("lockScreen");
+    lock.style.transition = "opacity 1.5s";
+    lock.style.opacity = 0;
+    setTimeout(()=> lock.style.display="none",1500);
+  } else {
+    attempts++;
+    error.innerText = "Wrong password 💔";
+    // Shake animation
+    document.getElementById("lockScreen").animate([
+      { transform: 'translateX(0px)' },
+      { transform: 'translateX(-10px)' },
+      { transform: 'translateX(10px)' },
+      { transform: 'translateX(0px)' }
+    ], { duration:300 });
+    if(attempts === 2) hint.innerText="Hint: It's something we share in Common ❤️";
+    if(attempts === 3) hint.innerText="Hint: Pick your date and Month...";
+    if(attempts >=4) hint.innerText="Okay... it's 'Your Favorite ' 💝";
+  }
+}
+
+// ENTER KEY triggers unlock
+document.getElementById("passwordInput").addEventListener("keypress", function(e){
+  if(e.key==="Enter") checkPassword();
+});
+
+// ======================
+// YOUR ORIGINAL CODE STARTS BELOW (UNCHANGED)
+// ======================
+
+// Recipient Name
+const recipientName = "Susan"; // <-- Replace with the person's name
+
+// Show recipient name outside the envelope
+document.getElementById("recipient-name-outside").textContent = recipientName;
+
+const envelope = document.getElementById("envelope");
+const background = document.getElementById("background");
+const poemContainer = document.getElementById("poem-container");
+const poemDiv = document.getElementById("poem");
+const music = document.getElementById("bg-music");
+
+const lines = [
+  `In the quiet hum of twilight’s glow,`,
+  `${recipientName}, your presence lingers, soft and slow.`,
+  "A spark that dances, pure and bright,",
+  "Turning ordinary into starlit night.",
+  `${recipientName}, your laughter drifts—a gentle song,`,
+  "A melody where my heart belongs.",
+  `${recipientName}, your eyes, like galaxies, vast and deep,`,
+  "Hold secret dreams I long to keep.",
+  "Your heart moves with a graceful fire,",
+  "A rhythm that stirs my own desire.",
+  "In every gesture, tender, small,",
+  "I see the wonder that conquers all.",
+  `I wish to write your name in stars above,`,
+  `To tell the cosmos of my endless love.`,
+  `But since the sky is far too wide,`,
+  `I whisper it where my soul resides.`,
+  `You are my story, my secret melody,`,
+  "The softest sunset, my reverie.",
+  "Hopelessly, endlessly, completely true,",
+  `Forever enchanted, I am by you, ${recipientName}.`
+];
+
+function startPoem() {
+  envelope.classList.add("open");
+  setTimeout(() => {
+    envelope.style.display = "none";
+    background.style.opacity = 1;
+    poemContainer.style.opacity = 1;
+    poemContainer.style.pointerEvents = "all";
+
+    // Typing & disappearing lines
+    let lineIndex = 0;
+
+    function typeLine() {
+      if(lineIndex >= lines.length) return;
+      let line = lines[lineIndex];
+      let i = 0;
+      poemDiv.textContent = ""; 
+      poemDiv.style.opacity = 1;
+
+      function typeChar() {
+        if(i < line.length){
+          poemDiv.textContent += line[i];
+          i++;
+          setTimeout(typeChar, 60);
+        } else {
+          setTimeout(()=>{
+            poemDiv.style.opacity = 0;
+            setTimeout(()=>{
+              lineIndex++;
+              typeLine();
+            },600);
+          },800);
+        }
+      }
+      typeChar();
+    }
+
+    typeLine();
+
+    music.play();
+
+    // Stars
+    for(let i=0;i<100;i++){
+      let star = document.createElement("div");
+      star.className="star";
+      star.style.left=Math.random()*100+"vw";
+      star.style.top=Math.random()*100+"vh";
+      star.style.animationDuration=(2+Math.random()*3)+"s";
+      poemContainer.appendChild(star);
+    }
+
+    // Shooting stars
+    setInterval(()=>{
+      let s=document.createElement("div");
+      s.className="shooting-star";
+      s.style.left=Math.random()*80+"vw";
+      s.style.top=Math.random()*50+"vh";
+      poemContainer.appendChild(s);
+      setTimeout(()=>s.remove(),2000);
+    },3000);
+
+    // Star photos
+   const photoUrl = "Susan.jpeg"; 
+    for(let i=0;i<10;i++){
+      let starPhoto=document.createElement("div");
+      starPhoto.className="star-photo";
+      starPhoto.style.left=Math.random()*90+"vw";
+      starPhoto.style.top=Math.random()*80+"vh";
+      let img=document.createElement("img");
+      img.src=photoUrl;
+      starPhoto.appendChild(img);
+
+      // Random floating animation
+      let floatAnim = Math.random()>0.5 ? "floatX" : "floatY";
+      starPhoto.style.animation = `${floatAnim} ${4+Math.random()*3}s ease-in-out infinite alternate, twinkle ${2+Math.random()*2}s infinite alternate`;
+
+      poemContainer.appendChild(starPhoto);
+    }
+
+    // Voice narration
+    const speechText = lines.join(" ");
+    const utterance = new SpeechSynthesisUtterance(speechText);
+    utterance.rate=1; utterance.pitch=1.2; utterance.volume=1;
+    speechSynthesis.speak(utterance);
+
+    // Background sparkles
+    for(let i=0;i<30;i++){
+      let sparkle = document.createElement("div");
+      sparkle.className="sparkle";
+      sparkle.style.left=Math.random()*100+"vw";
+      sparkle.style.top=Math.random()*100+"vh";
+      background.appendChild(sparkle);
+    }
+
+  },1000);
+}
+
+envelope.addEventListener("click", startPoem);
+
+// Tap for extra shooting stars
+poemContainer.addEventListener("click",(e)=>{
+  let s=document.createElement("div");
+  s.className="shooting-star";
+  s.style.left=e.clientX+"px";
+  s.style.top=e.clientY+"px";
+  poemContainer.appendChild(s);
+  setTimeout(()=>s.remove(),2000);
+
+  let sparkle = document.createElement("div");
+  sparkle.className="star";
+  sparkle.style.left=e.clientX+"px";
+  sparkle.style.top=e.clientY+"px";
+  sparkle.style.width="5px";
+  sparkle.style.height="5px";
+  poemContainer.appendChild(sparkle);
+  setTimeout(()=>sparkle.remove(),1000);
+});
+</script>
+</body>
+</html>
