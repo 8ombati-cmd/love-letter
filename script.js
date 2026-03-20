@@ -39,7 +39,17 @@ function startHackEffect(){
     if(i >= lines.length){
       hackDone = true;
       hackScreen.remove();
-      checkPassword(); // run your original logic again
+      setTimeout(() => {
+  const lock = document.getElementById("lockScreen");
+
+  unlockSound.play();
+
+  lock.style.transition = "opacity 1.5s, filter 1.5s";
+  lock.style.opacity = 0;
+  lock.style.filter = "blur(10px)";
+
+  setTimeout(()=> lock.style.display="none",1500);
+}, 300);
       return;
     }
 
