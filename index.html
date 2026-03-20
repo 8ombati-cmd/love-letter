@@ -3,29 +3,45 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>💌 Lovely Letter To You My Love </title>
+<title>💌 Lovely Letter to you My Love </title>
 
 <link rel="stylesheet" href="style.css">
+
+<!-- 🔥 ADDED: glitch + hacker font vibe -->
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
 </head>
 
 <body>
 
+<!-- 🔥 ADDED: MATRIX CANVAS (LEVEL 4) -->
+<canvas id="matrixCanvas"></canvas>
+
 <!-- PASSWORD SCREEN -->
 <div id="lockScreen">
-  <h2>🔒 A Secret Awaits...</h2>
+  <h2>🔒 A Secret Awaits Babe...</h2>
   <p>Only you know the key 💭</p>
   <input id="passwordInput" type="password" placeholder="Enter secret...">
   <button onclick="checkPassword()">Unlock 💝</button>
   <p id="error"></p>
   <p id="hint"></p>
+
+  <!-- 🔥 ADDED: FAKE TERMINAL TEXT -->
+  <div id="terminalLogs" style="
+    margin-top:20px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size:0.8rem;
+    color:#00ffcc;
+    opacity:0.7;">
+  </div>
 </div>
 
 <div id="background"></div>
 
-<div id="recipient-name-outside">photo</div>
+<div id="recipient-name-outside">Susan</div>
 
 <div id="envelope">
-  <div id="envelope-inner"><span>💌 Tap Me </span></div>
+  <div id="envelope-inner"><span>💌 Tap Me Babe</span></div>
 </div>
 
 <div id="poem-container">
@@ -34,6 +50,43 @@
     <source src="Love.mp3" type="audio/mpeg">
   </audio>
 </div>
+
+<!-- ADDED BUTTON -->
+<button id="loveBtn" style="
+position:fixed;
+bottom:20px;
+right:20px;
+padding:10px 20px;
+font-size:16px;
+border:none;
+border-radius:20px;
+background:red;
+color:white;
+cursor:pointer;
+z-index:10;">
+💖 Click Me
+</button>
+
+<!-- 🔥 ADDED: GLITCH OVERLAY -->
+<div id="glitchOverlay" style="
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,255,204,0.03);
+pointer-events:none;
+z-index:9998;
+animation: glitchOverlayAnim 0.3s infinite alternate;
+"></div>
+
+<!-- 🔥 ADDED: GLITCH STYLE -->
+<style>
+@keyframes glitchOverlayAnim {
+  0% { opacity: 0.02; }
+  100% { opacity: 0.06; }
+}
+</style>
 
 <script src="script.js"></script>
 </body>
