@@ -3,8 +3,8 @@ const correctPassword = "14th August";
 let attempts = 0;
 
 // 🔊 SOUND EFFECTS (LEVEL 2)
-const unlockSound = new Audio("unlock.mp3"); // add file
-const errorSound = new Audio("error.mp3");   // add file
+const unlockSound = new Audio("unlock.wav"); // add file
+const errorSound = new Audio("error.wav");   // add file
 
 // 🔥 ADDED: LEVEL 3 HACK EFFECT
 let hackDone = false;
@@ -75,6 +75,7 @@ function startHackEffect(){
 
 // 🔥 LEVEL 4 MATRIX RAIN
 function startMatrixRain(){
+  startMatrixRain();
   const canvas = document.createElement("canvas");
   canvas.id = "matrixCanvas";
   document.body.appendChild(canvas);
